@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  android-container:
+    image: budtmo/docker-android:emulator_13.0_v2.16.2-p0-updated
+    privileged: true
+    ports:
+      - 6080:6080
+      - 5555:5555
+      - 5554:5554
+      - 9000:9000
+    environment:
+      - EMULATOR_DEVICE=Samsung Galaxy S10
+      - WEB_VNC=true
+      - WEB_LOG=true
+      - APPIUM=false
+      - CLEAN=true
+      
+    devices:
+      - /dev/kvm
+    volumes:
+      - userdata:/home/androidusr
+      - ./cli:/home/androidusr/cli
+      - ./mixins/configs/process:/home/androidusr/docker-android/mixins/configs/process
+    container_name: android-container
+volumes:
+  userdata:
