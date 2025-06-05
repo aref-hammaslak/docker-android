@@ -1,8 +1,18 @@
 import logging
 import os
+import subprocess
 
 logger = logging.getLogger("helper")
 
+
+def run_cmd(cmd, shell=True, split=False):
+    if not shell:
+        cmd = cmd.split()
+    cmd_output = subprocess.check_output(cmd, shell=shell).decode("utf-8").strip()
+    if split:
+        return cmd_output.splitlines()
+    else:
+        return cmd_output
 
 def convert_str_to_bool(given_str: str) -> bool:
     """
