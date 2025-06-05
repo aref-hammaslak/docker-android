@@ -6,7 +6,7 @@ import time
 from enum import Enum
 
 from src.device import Device, DeviceType
-from src.helper import convert_str_to_bool, get_env_value_or_raise, symlink_force
+from src.helper import convert_str_to_bool, get_env_value_or_raise, run_cmd, symlink_force
 from src.constants import ENV, UTF8
 
 
@@ -34,6 +34,8 @@ class Emulator(Device):
         "13.0": "33",
         "14.0": "34"
     }
+
+    API_LEVEL_REVERSE = {v: k for k, v in API_LEVEL.items()}
 
     adb_name_id = 5554
 
@@ -63,10 +65,11 @@ class Emulator(Device):
         self.additional_args = additional_args
         self.img_type = img_type
         self.sys_img = sys_img
+        self.EMU_IMG = f"system-images;android-{self.api_level};{self.img_type};{self.sys_img}"
         workdir = get_env_value_or_raise(ENV.WORK_PATH)
         self.path_device_profile_target = os.path.join(workdir, ".android", "devices.xml")
-        self.path_emulator = os.path.join(workdir, "emulator")
-        self.path_emulator_config = os.path.join(workdir, "emulator", "config.ini")
+        self.path_emulator = os.path.join(workdir, self.name)
+        self.path_emulator_config = os.path.join(self.path_emulator, "config.ini")
         self.path_emulator_profiles = os.path.join(workdir, "docker-android", "mixins",
                                                    "configs", "devices", "profiles")
         self.path_emulator_skins = os.path.join(workdir, "docker-android", "mixins",
