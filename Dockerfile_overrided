@@ -1,0 +1,16 @@
+FROM budtmo/docker-android:emulator_13.0_v2.16.2-p0
+
+USER root
+RUN echo 'root:x:0:0:root:/root:/bin/zsh' >> /etc/passwd && \
+    echo 'root:x:0:0:root:/root:/bin/bash'
+
+COPY setup_zsh.sh /tmp/setup_zsh.sh
+RUN chmod +x /tmp/setup_zsh.sh && \
+    /tmp/setup_zsh.sh
+
+USER androidusr
+WORKDIR /home/androidusr
+
+# Clean lock files and use Zsh as the shell
+ENTRYPOINT ["/bin/zsh", "-c"]
+CMD ["rm -rf /home/androidusr/emulator/*.lock; /home/androidusr/docker-android/mixins/scripts/run.sh"]
