@@ -8,7 +8,16 @@ COPY setup_zsh.sh /tmp/setup_zsh.sh
 RUN chmod +x /tmp/setup_zsh.sh && \
     /tmp/setup_zsh.sh
 
-USER androidusr
+# android version 14
+RUN sdkmanager --install "platforms;android-34"
+RUN sdkmanager --install "system-images;android-34;google_apis_playstore;x86_64"
+
+# android version 15
+RUN sdkmanager --install "platforms;android-35" 
+RUN sdkmanager --install "system-images;android-35;google_apis_playstore;x86_64"
+
+COPY cli /home/androidusr/docker-android/cli
+
 WORKDIR /home/androidusr
 
 # Clean lock files and use Zsh as the shell

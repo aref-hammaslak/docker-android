@@ -16,4 +16,5 @@ git clone https://github.com/marlonrichert/zsh-autocomplete ${ZSH_CUSTOM:-/home/
 
 # Configure .zshrc with desired plugins
 sed -i 's/^plugins=(.*)$/plugins=(git zsh-autosuggestions zsh-syntax-highlighting fast-syntax-highlighting zsh-autocomplete)/' ~/.zshrc && \
-echo 'source $ZSH/oh-my-zsh.sh' >> ~/.zshrc 
+echo 'source $ZSH/oh-my-zsh.sh' >> ~/.zshrc  
+echo    
